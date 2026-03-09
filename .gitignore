@@ -1,0 +1,8 @@
+cache/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+data/sparc/*
+data/clusters/*
+results/logs/*.log
+.env
