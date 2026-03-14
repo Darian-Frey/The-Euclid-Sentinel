@@ -13,7 +13,8 @@ class EuclidDataFetcher:
         self.registry = {
             "bullet": {"name": "1E 0657-558", "radius": ".02 deg"},
             "abell370": {"name": "Abell 370", "radius": ".03 deg"},
-            "elgordo": {"name": "ACT-CL J0102-4915", "radius": ".04 deg"}
+            "elgordo": {"name": "ACT-CL J0102-4915", "radius": ".04 deg"},
+            "hudf": {"name": "HUDF", "radius": ".01 deg"} # Deep Field addition
         }
         print(f"[SENTINEL_LOG] Survey Engine initialized. Storage: {download_dir}")
 
