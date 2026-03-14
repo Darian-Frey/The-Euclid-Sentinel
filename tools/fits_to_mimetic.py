@@ -5,7 +5,7 @@ from scipy.ndimage import zoom, gaussian_filter
 from core.mimetic_engine import MimeticEngine
 
 # --- CONFIGURATION UPDATE ---
-FITS_PATH = "data/raw_fits/mastDownload/HST/jabu01030/jabu01030_drz.fits"
+FITS_PATH = "data/raw_fits/mastDownload/HST/jbqz31010/jbqz31010_drz.fits"
 
 def run_sentinel_on_fits():
     print(f"--- FINAL CALIBRATION: {FITS_PATH} ---")

@@ -12,7 +12,8 @@ class EuclidDataFetcher:
         # TARGET REGISTRY: Coordinates and preferred datasets
         self.registry = {
             "bullet": {"name": "1E 0657-558", "radius": ".02 deg"},
-            "abell370": {"name": "Abell 370", "radius": ".03 deg"}
+            "abell370": {"name": "Abell 370", "radius": ".03 deg"},
+            "elgordo": {"name": "ACT-CL J0102-4915", "radius": ".04 deg"}
         }
         print(f"[SENTINEL_LOG] Survey Engine initialized. Storage: {download_dir}")
 
