@@ -7,3 +7,5 @@ data/clusters/*
 results/logs/*.log
 .env
 data/raw_fits/
+*.png
+*.fits
