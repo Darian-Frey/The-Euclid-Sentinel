@@ -4,7 +4,8 @@ from astropy.io import fits
 from scipy.ndimage import zoom, gaussian_filter
 from core.mimetic_engine import MimeticEngine
 
-FITS_PATH = "data/raw_fits/mastDownload/HST/j90701010/j90701010_drz.fits"
+# --- CONFIGURATION UPDATE ---
+FITS_PATH = "data/raw_fits/mastDownload/HST/jabu01030/jabu01030_drz.fits"
 
 def run_sentinel_on_fits():
     print(f"--- FINAL CALIBRATION: {FITS_PATH} ---")
