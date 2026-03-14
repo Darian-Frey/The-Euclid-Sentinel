@@ -22,7 +22,7 @@ The engine operates by solving for the effective energy density $\rho_{eff}$ as 
 ### The Krylov Notch
 The scalar field $\phi$ responds to the curvature of space-time through a non-linear free function $f(Q)$, where $Q$ represents the field intensity:
 
-$$f(Q) = \text{notch\_amp} \cdot Q^{1.5} \cdot e^{-\kappa Q}$$
+f(Q) = \mathcal{A} \cdot Q^{1.5} \cdot e^{-\kappa Q}
 
 Where $\kappa = 0.80$ is the **Sentinel Constant**. This term creates "Ghost Gravity" halos in high-gradient regions, mimicking the gravitational effects traditionally attributed to Dark Matter.
 
