@@ -6,3 +6,4 @@ data/sparc/*
 data/clusters/*
 results/logs/*.log
 .env
+data/raw_fits/
