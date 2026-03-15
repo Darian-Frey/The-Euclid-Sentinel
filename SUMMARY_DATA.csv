@@ -1,0 +1,5 @@
+target_name,redshift_z,dm_ratio,peak_gravity_kg_m3,status,calibration_kappa
+Bullet_Cluster,0.296,10.11,8.12e-22,VERIFIED,0.80
+Abell_370,0.375,10.25,7.95e-22,VERIFIED,0.80
+El_Gordo,0.870,11.62,9.04e-22,VERIFIED,0.80
+HUDF_DeepField,2.000,12.01,9.88e-22,VERIFIED,0.80
