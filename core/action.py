@@ -45,7 +45,7 @@ V4.2  Hybrid Standard-MOND Anchor (CURRENT):
         a₀   — acceleration scale       (fixed at phys.A0 = 1.21×10⁻¹⁰ m/s²)
 
       Properties verified:
-        (i)   F(Q) → Q as Q → 0           (canonical kinetic limit)           ✓
+        (i)   F(Q) ~ (2/3)Q^{3/2} as Q → 0   (deep MOND; F'(Q) → √Q correctly)   ✓
         (ii)  F′(Q) = μ_std(√Q) exactly   (zero shape-RMSE vs Standard MOND)  ✓
         (iii) c_s² ∈ [0.50, 1.00]         (ghost-free, subluminal, no caustics)✓
         (iv)  c_T = c                      (conformal structure, GW170817)      ✓
