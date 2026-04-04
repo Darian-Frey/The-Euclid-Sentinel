@@ -109,7 +109,7 @@ ML_DISK_DEFAULT = 0.50   # M_sun / L_sun  (3.6μm stellar disk)
 ML_BUL_DEFAULT  = 0.70   # M_sun / L_sun  (3.6μm stellar bulge, older population)
 
 # Optimisation bounds for λ (caustic guard amplitude)
-LAM_BOUNDS      = (0.0, 0.5)
+LAM_BOUNDS      = (0.0, 0.35)  # Upper bound: λ≥0.44 violates c_s²≤1 (see tests/test_gw_compliance.py)
 
 # Minimum data points required to include a galaxy in the fit
 MIN_POINTS      = 5
