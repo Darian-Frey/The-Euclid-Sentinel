@@ -1,68 +1,175 @@
-# tools/final_survey_locked.py
+"""
+tools/final_survey_locked.py
+=============================
+CODE-GEO V4.2 — Locked Survey Runner (Standard Three-Panel Output)
+===================================================================
+
+Runs the calibrated V4.2 pipeline across all survey targets with a clean
+three-panel output matching the standard SENTINEL_REPORT format used by
+run_full_survey.py. This script is the "production locked" variant —
+no experimental rendering, no radial profiles, just the canonical output.
+
+Use this when you want output images that are directly comparable
+across pipeline versions or parameter sweeps.
+
+Changelog vs original
+---------------------
+Original:
+  - Loaded raw FITS with no physical calibration.
+  - Computed Q via arbitrary gradient normalisation (peak = 2.0 / 10.0).
+  - Called old engine interface: compute_effective_density(rho_baryon_phys, Q_field).
+  - Results were artefacts of the hardcoded 12.0 factor in the engine.
+
+V4.2:
+  - EuclidLoader.load_and_calibrate() provides Σ_b [kg/m²] and dx [m].
+  - Engine derives Q from thin-disk Poisson — no free normalisation.
+  - DM ratio is a physics prediction from F'(Q).
+  - Output labelled clearly with physical parameters (M/L, z, g_N/a₀).
+"""
+
 import os
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
-from astropy.io import fits
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from core.mimetic_engine import MimeticEngine
+from tools.euclid_loader import EuclidLoader, TARGET_REGISTRY
 
-def run_locked_survey():
-    # Final verified paths for your ThinkPad P15
-    survey_targets = {
-        "Bullet_Cluster": "data/raw_fits/mastDownload/HST/j90701010/j90701010_drz.fits",
-        "Abell_370": "data/raw_fits/mastDownload/HST/jabu01030/jabu01030_drz.fits",
-        "El_Gordo": "data/raw_fits/mastDownload/HST/jbqz31010/jbqz31010_drz.fits",
-        "HUDF_DeepField": "data/raw_fits/mastDownload/HST/j8wc7c010/j8wc7c010_drz.fits"
-    }
+SURVEY_MANIFEST = {
+    "bullet_cluster" : "mastDownload/HST/j90701010/j90701010_drz.fits",
+    "abell_370"      : "mastDownload/HST/jabu01030/jabu01030_drz.fits",
+    "el_gordo"       : "mastDownload/HST/jbqz31010/jbqz31010_drz.fits",
+    "hudf"           : "mastDownload/HST/j8wc7c010/j8wc7c010_drz.fits",
+}
 
-    engine = MimeticEngine(kappa=0.80)
-    print("🛰️ EUCLID SENTINEL: EXECUTING FINAL LOCKED SURVEY\n" + "="*50)
+FITS_ROOT  = "data/raw_fits/"
+OUTPUT_DIR = "survey_outputs/"
 
-    for name, path in survey_targets.items():
-        if not os.path.exists(path): continue
-        print(f"🔭 ANALYZING: {name}...")
-        
+
+def render_locked_report(
+    target_key: str,
+    sigma_b: np.ndarray,
+    sigma_eff: np.ndarray,
+    F_prime: np.ndarray,
+    telemetry: dict,
+    provenance: dict,
+    output_dir: str,
+) -> str:
+    """
+    Standard three-panel report: Σ_b | F'(Q) | Σ_eff.
+    Output filename matches SENTINEL_REPORT_{target}.png convention.
+    """
+    fig, axes = plt.subplots(1, 3, figsize=(16, 5), facecolor="#0a0a0a")
+
+    def _log(arr):
+        return np.log10(arr + 1e-40)
+
+    im0 = axes[0].imshow(_log(sigma_b), cmap="hot", origin="lower")
+    axes[0].set_title(
+        f"Baryonic Σ_b  [log₁₀ kg/m²]\n"
+        f"M/L = {provenance['ml_ratio_used']} M☉/L☉  |  z = {provenance['redshift_z']}",
+        color="white", fontsize=9,
+    )
+    plt.colorbar(im0, ax=axes[0], fraction=0.046, pad=0.04)
+
+    im1 = axes[1].imshow(F_prime, cmap="viridis", origin="lower", vmin=0.0, vmax=1.0)
+    axes[1].set_title(
+        f"F'(Q) — MOND interpolation field\n"
+        f"mean = {telemetry['F_prime_mean']:.3f}  "
+        f"min = {telemetry['F_prime_min']:.3f}",
+        color="white", fontsize=9,
+    )
+    plt.colorbar(im1, ax=axes[1], fraction=0.046, pad=0.04)
+
+    im2 = axes[2].imshow(_log(sigma_eff), cmap="coolwarm", origin="lower")
+    axes[2].set_title(
+        f"Effective Σ_eff  [log₁₀ kg/m²]\n"
+        f"DM ratio  mean: {telemetry['dm_ratio_mean']:.2f}x  "
+        f"peak: {telemetry['dm_ratio_peak']:.2f}x",
+        color="white", fontsize=9,
+    )
+    plt.colorbar(im2, ax=axes[2], fraction=0.046, pad=0.04)
+
+    for ax in axes:
+        ax.axis("off")
+
+    fig.patch.set_facecolor("#0a0a0a")
+    fig.suptitle(
+        f"CODE-GEO V4.2  |  {provenance['target_name']}  |  "
+        f"g_N_max/a₀ = {telemetry['g_N_max_ms2'] / 1.21e-10:.1f}  |  "
+        f"λ={telemetry['lam']}  β={telemetry['beta']}",
+        color="white", fontsize=10, fontweight="bold",
+    )
+    plt.tight_layout()
+
+    output_path = os.path.join(output_dir, f"SENTINEL_REPORT_{target_key}.png")
+    plt.savefig(output_path, facecolor="#0a0a0a", dpi=150)
+    plt.close()
+    return output_path
+
+
+def run_locked_survey(targets: list = None):
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+    engine = MimeticEngine()
+    loader = EuclidLoader(data_path=FITS_ROOT)
+
+    active = targets or list(SURVEY_MANIFEST.keys())
+
+    print("🛰️  CODE-GEO V4.2 — LOCKED SURVEY (Standard Output)")
+    print("=" * 55)
+
+    results = []
+    for target_key in active:
+        fits_path = SURVEY_MANIFEST.get(target_key)
+        if fits_path is None:
+            print(f"[SKIP] '{target_key}' not in manifest.")
+            continue
+
+        full_path = os.path.join(FITS_ROOT, fits_path)
+        if not os.path.exists(full_path):
+            print(f"[SKIP] {full_path} not found.")
+            continue
+
+        print(f"\n🔭  {TARGET_REGISTRY[target_key]['name']}")
+
         try:
-            with fits.open(path) as hdul:
-                # Use HDU[1] for SCI data
-                data = hdul[1].data.astype(np.float64)
-                data = np.nan_to_num(data)
-                
-                # Center Crop (1000x1000) to capture core lensing
-                h, w = data.shape
-                data = data[h//2-500:h//2+500, w//2-500:w//2+500]
-                
-            # Physics Calculation
-            q_field = np.abs(np.gradient(data)[0]) + np.abs(np.gradient(data)[1])
-            q_field = (q_field / (np.max(q_field) + 1e-10)) * 10.0
-            rho_eff = engine.compute_effective_density(data, q_field)
-            
-            # Rendering
-            fig, ax = plt.subplots(1, 2, figsize=(16, 8), facecolor='black')
-            
-            # Robust Log-Scale Rendering
-            b_disp = np.log10(data - np.min(data) + 1.0)
-            m_disp = np.log10(rho_eff - np.min(rho_eff) + 1.0)
+            sigma_b, dx, provenance = loader.load_and_calibrate(
+                fits_path=fits_path, target_key=target_key
+            )
+            sigma_eff, F_prime, telemetry = engine.compute_effective_density(
+                sigma_b, dx
+            )
+            out = render_locked_report(
+                target_key, sigma_b, sigma_eff, F_prime,
+                telemetry, provenance, OUTPUT_DIR,
+            )
+            print(f"  [✓] {out}")
+            print(
+                f"  DM ratio: mean={telemetry['dm_ratio_mean']:.2f}x  "
+                f"peak={telemetry['dm_ratio_peak']:.2f}x  "
+                f"g_N/a₀={telemetry['g_N_max_ms2']/1.21e-10:.1f}"
+            )
+            results.append((target_key, telemetry, provenance))
 
-            ax[0].imshow(b_disp, cmap='magma', origin='lower')
-            ax[0].set_title(f"Hubble: {name}", color='white', fontsize=14)
-            
-            ax[1].imshow(m_disp, cmap='viridis', origin='lower')
-            ax[1].set_title(f"Sentinel Mimetic Potential", color='white', fontsize=14)
+        except Exception as exc:
+            print(f"  [ERROR] {target_key}: {exc}")
 
-            for a in ax: a.axis('off')
+    print(f"\n🏁 LOCKED SURVEY COMPLETE — {len(results)}/{len(active)} targets.")
 
-            plt.tight_layout()
-            plt.savefig(f"SENTINEL_FINAL_{name}.png", facecolor='black')
-            plt.close()
-            print(f"✅ LOCKED: SENTINEL_FINAL_{name}.png")
-            
-        except Exception as e:
-            print(f"[RECOVERY_NODE] Analysis failed for {name}: {e}")
+    if results:
+        print(f"\n  {'Target':<25} {'DM mean':>9} {'DM peak':>9} {'g_N/a₀':>8}")
+        print(f"  {'-'*53}")
+        for tk, tel, _ in results:
+            print(
+                f"  {tk:<25} "
+                f"{tel['dm_ratio_mean']:>9.2f}x "
+                f"{tel['dm_ratio_peak']:>9.2f}x "
+                f"{tel['g_N_max_ms2']/1.21e-10:>8.1f}"
+            )
 
-    print("\n🏁 MISSION COMPLETE. All reports stabilized and locked.")
 
 if __name__ == "__main__":
     run_locked_survey()
