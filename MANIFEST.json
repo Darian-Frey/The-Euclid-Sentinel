@@ -1,32 +1,82 @@
 {
-  "project_name": "Euclid_Sentinel",
-  "phase": "VIII_COMPLETE",
-  "timestamp": "2026-03-15T00:26:00Z",
-  "system_info": {
-    "host": "ThinkPad-P15-Gen-2i",
-    "bootloader": "FIRMWARE_V1.1",
-    "protocol": "SCHEMA_V5"
+  "project_name": "The-Euclid-Sentinel",
+  "framework": "Mimetic-Conformal V4.2 (CODE-GEO)",
+  "phase": "SPARC_ANALYSIS_COMPLETE",
+  "preprint_status": "DRAFT",
+  "timestamp_updated": "2026-04-04",
+
+  "scientific_status": {
+    "sparc_fit": {
+      "status": "VALIDATED",
+      "galaxies": 171,
+      "lambda_opt": 0.0,
+      "median_rmse_kms": 12.68,
+      "mean_rmse_kms": 17.65,
+      "a0_pinned": "1.21e-10 m/s²",
+      "a0_joint_fit": "1.264e-10 m/s²",
+      "profile_curvature_at_zero": 2.11,
+      "profile_shape": "PEAKED",
+      "interpretation_b_ruled_out": true,
+      "note": "Caustic guard excluded. Minimal action F_MOND(Q) preferred."
+    },
+    "cluster_lensing": {
+      "status": "PIPELINE_BUILT_DATA_NOT_RUN",
+      "note": "HST FITS data present. Pipeline not yet executed on real data."
+    },
+    "euclid_predictions": {
+      "status": "FUTURE_WORK",
+      "note": "Awaiting Euclid wide-survey data release (~2027)."
+    }
   },
-  "core_calibration": {
-    "kappa": 0.80,
-    "notch_model": "Hartley-Krylov_V3.1.3",
-    "normalization": "Log-Domain"
-  },
-  "file_registry": {
-    "physics_engine": "core/mimetic_engine.py",
-    "telemetry_ui": "core/dashboard.py",
-    "batch_survey": "tools/run_full_survey.py",
-    "documentation": [
-      "README.md",
-      "GALLERY.md"
+
+  "test_suite": {
+    "total_tests": 38,
+    "passing": 38,
+    "files": [
+      "tests/test_gw_compliance.py",
+      "tests/test_stability.py",
+      "tests/test_v31_lensing.py"
     ],
-    "data_outputs": [
-      "SENTINEL_REPORT_Bullet_Cluster.png",
-      "SENTINEL_REPORT_Abell_370.png",
-      "SENTINEL_REPORT_El_Gordo.png",
-      "SENTINEL_REPORT_HUDF_DeepField.png",
-      "SUMMARY_DATA.csv"
-    ]
+    "gw170817_compliant": true,
+    "causality_bound_lambda": 0.44,
+    "safe_lambda_upper_bound": 0.35
   },
-  "status": "VALIDATED_AND_LOCKED"
+
+  "core_calibration": {
+    "a0": "1.21e-10 m/s²",
+    "lambda_opt_sparc": 0.0,
+    "lambda_audit_default": 0.05,
+    "lambda_safe_upper_bound": 0.35,
+    "beta": 1.5,
+    "ml_disk": 0.5,
+    "ml_bul": 0.7,
+    "free_function": "F_MOND(Q) = sqrt(Q(1+Q)) - arcsinh(sqrt(Q))",
+    "note": "KAPPA (V3.1 parameter) deprecated and removed"
+  },
+
+  "deprecation_log": {
+    "V3.1_krylov_notch": "Removed. Hardcoded 12.0 DM factor was artefact, not physics.",
+    "V4.1_soft_krylov": "Removed. RMSE 18-23% on SPARC; c_s² > 1 (causality violation).",
+    "KAPPA_constant": "Removed from physics_constants.py. No role in V4.2.",
+    "phase_08_outputs": "Archived to archive/phase_08/. Generated with invalid pipeline."
+  },
+
+  "file_registry": {
+    "physics_engine": "core/action.py",
+    "mimetic_engine": "core/mimetic_engine.py",
+    "constants": "core/physics_constants.py",
+    "sparc_refinery": "tools/sparc_refinery_v4.py",
+    "euclid_loader": "tools/euclid_loader.py",
+    "survey_runner": "tools/run_full_survey.py",
+    "preprint": "docs/PREPRINT.md",
+    "roadmap": "docs/ROADMAP.md",
+    "tests": [
+      "tests/test_gw_compliance.py",
+      "tests/test_stability.py",
+      "tests/test_v31_lensing.py"
+    ],
+    "sparc_data": "data/sparc/ (gitignored — download from Zenodo 16284118)",
+    "hst_data": "data/raw_fits/ (gitignored — download from MAST)",
+    "survey_outputs": "survey_outputs/ (gitignored — regenerate from pipeline)"
+  }
 }

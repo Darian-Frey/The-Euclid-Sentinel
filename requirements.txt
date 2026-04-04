@@ -1,0 +1,24 @@
+# The Euclid Sentinel — CODE-GEO V4.2
+# Python dependencies
+#
+# Install: pip install -r requirements.txt
+# Tested with Python 3.12+ on Linux (Ubuntu 24 / Mint)
+#
+# Core scientific stack
+numpy>=1.25
+scipy>=1.11
+matplotlib>=3.7
+astropy>=6.0
+
+# Cosmology (used in euclid_loader.py for angular diameter distance)
+# Included in astropy — no separate install needed
+
+# FITS data fetching (tools/fetch_eso_data.py)
+astroquery>=0.4.6
+
+# Data download (tools/sparc_refinery_v4.py auto-download)
+requests>=2.31
+
+# Dashboard UI (core/dashboard.py — optional, not required for pipeline)
+streamlit>=1.30
+pandas>=2.0
