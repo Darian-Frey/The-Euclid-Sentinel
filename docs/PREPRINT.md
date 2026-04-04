@@ -379,3 +379,28 @@ The complete pipeline is available as open-source software in the `The-Euclid-Se
 - `tools/run_full_survey.py` — Cluster lensing survey runner
 
 The SPARC refinery implements the correct AQUAL implicit equation (★) via vectorised Newton iteration. The thin-disk Poisson kernel for the lensing pipeline is $\hat{\Phi}(\mathbf{k}) = -2\pi G\hat{\Sigma}_b(\mathbf{k})/|\mathbf{k}|$, which correctly handles 2D projected surface mass density without conflating it with 3D volumetric density.
+
+### 4.6 RMSE Residuals and Galaxy Properties
+
+We correlate the per-galaxy RMSE with eight properties extracted from the SPARC rotation curve files and the results table: $V_\text{flat}$, the peak baryonic acceleration ratio $g_\text{bar}/a_0$, bulge fraction $f_\text{bul}$, gas fraction $f_\text{gas}$, central disk surface brightness $\log_{10}\text{SB}_\text{disk}$, the MOND fraction (fraction of radii with $g_\text{bar}/a_0 < 1$), a profile shape index, and the number of data points. Spearman rank correlations $\rho$ and p-values for all 171 galaxies are given in Table 2.
+
+All eight correlations are statistically significant at $p \leq 3 \times 10^{-3}$, and their signs are internally consistent: every property that correlates positively with RMSE ($V_\text{flat}$, $g_\text{bar}/a_0$, $\log_{10}\text{SB}_\text{disk}$, $f_\text{bul}$) characterises the same population — massive, high-surface-brightness, bulge-dominated galaxies. Every negative correlation ($f_\text{gas}$, MOND fraction, profile shape) identifies their complement — gas-rich, low-surface-brightness dwarfs. The internal consistency across eight independent properties confirms that the 56 poor fits ($\text{RMSE} \geq 20$ km s$^{-1}$) form a coherent, physically interpretable population rather than random scatter.
+
+**Table 2.** Spearman rank correlations between per-galaxy RMSE and galaxy properties ($n = 171$).
+
+| Property | $\rho$ | $p$ |
+|:---|:---:|:---:|
+| $V_\text{flat}$ [km s$^{-1}$] | $+0.562$ | $1.3 \times 10^{-15}$ |
+| Gas fraction | $-0.520$ | $3.2 \times 10^{-13}$ |
+| $g_\text{bar}/a_0$ (max) | $+0.506$ | $1.8 \times 10^{-12}$ |
+| MOND fraction of radii | $-0.493$ | $7.6 \times 10^{-12}$ |
+| $\log_{10} \text{SB}_\text{disk}$ [$L_\odot\,\text{pc}^{-2}$] | $+0.485$ | $1.9 \times 10^{-11}$ |
+| Bulge fraction | $+0.414$ | $1.9 \times 10^{-8}$ |
+| Profile shape index | $-0.348$ | $3.1 \times 10^{-6}$ |
+| $N$ data points | $+0.226$ | $3.0 \times 10^{-3}$ |
+
+The mean properties of good-fit ($\text{RMSE} < 20$ km s$^{-1}$, $n = 115$) and poor-fit ($n = 56$) galaxies confirm the separation: poor-fit galaxies have $V_\text{flat} = 171$ km s$^{-1}$ versus 97 km s$^{-1}$ for good fits, bulge fractions of 0.116 versus 0.016, and $g_\text{bar}/a_0 = 8.4$ versus 1.3.
+
+The physical mechanism is the behaviour of $\mu_\text{std}(x) = x/\sqrt{1+x^2}$ in the transition regime $x \sim 1$–$10$. This function approaches the Newtonian limit at $\mathcal{O}(x^{-2})$ — a relatively sharp transition that produces the wrong curvature of the effective acceleration profile in the inner-to-outer handoff zone of massive, bulge-dominated galaxies, where the baryonic acceleration spans the full range from Newtonian core to MOND outskirt. Gas-rich dwarfs with $g_\text{bar}/a_0 \ll 1$ throughout are unaffected, which explains their excellent fits (UGCA281: 1.5 km s$^{-1}$; DDO154: 3.3 km s$^{-1}$).
+
+Because the $\lambda = 0$ limit of Mimetic-Conformal V4.2 is algebraically identical to standard MOND with $\mu_\text{std}$, the observed residuals — concentrated in high-acceleration, high-surface-brightness, bulge-dominated galaxies — are attributable to the specific choice of interpolation function rather than a breakdown of the underlying conformal-mimetic framework. The alternative simple interpolation function $\mu_\text{simple}(x) = x/(1+x)$ is known to reduce residuals for this population in published MOND analyses (Li et al. 2018), but its adoption would require reconstructing the free function $F_\text{simple}(\mathcal{Q}) = \mathcal{Q} - 2\sqrt{\mathcal{Q}} + 2\ln(1 + \sqrt{\mathcal{Q}})$ and re-verifying the stability properties of the resulting action; this is deferred to future work.
