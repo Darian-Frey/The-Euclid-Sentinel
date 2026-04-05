@@ -28,7 +28,6 @@ sentinel_engine.log
 # ── Generated survey outputs ─────────────────────────────────
 # Produced by tools/run_full_survey.py and sparc_refinery_v4.py
 # Regenerate from the pipeline — do not commit binary outputs
-survey_outputs/
 action_self_test_v42.png
 mimetic_engine_v42_selftest.png
 SENTINEL_REPORT_Bullet_Cluster_V42.png
@@ -62,8 +61,8 @@ data/euclid_raw/
 # Regenerate from the pipeline — commit only if attaching to
 # a specific paper version as supplementary material.
 # To commit for a paper release: git add -f survey_outputs/SPARC_RESULTS_V42.csv
-survey_outputs/*.csv
-survey_outputs/*.png
+#survey_outputs/*.csv
+#survey_outputs/*.png
 
 # ── OS and IDE ───────────────────────────────────────────────
 .DS_Store
