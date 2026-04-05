@@ -1,8 +1,8 @@
 # Mimetic-Conformal Gravity and the SPARC Rotation Curve Sample: Testing the Minimal Free Function Against 171 Disk Galaxies
 
-**Shane Frey**  
+**Shane Hartley**  
 Independent Research  
-*Correspondence: [author email]*
+*Correspondence: shane.hartley06@gmail.com*
 
 **Preprint — CODE-GEO V4.2**  
 *Draft date: April 2026*
@@ -67,11 +67,16 @@ The V4.2 free function satisfies the following constraints, verified analyticall
 
 | Property | Condition | Status |
 |:---|:---|:---|
-| Canonical kinetic limit | $F(\mathcal{Q}) \to \mathcal{Q}$ as $\mathcal{Q} \to 0$ | ✓ |
+| Deep MOND free function | $F(\mathcal{Q}) \sim \frac{2}{3}\mathcal{Q}^{3/2}$ as $\mathcal{Q} \to 0$ (so $F'\to\sqrt{\mathcal{Q}}$) | ✓ |
 | Newtonian limit | $F'(\mathcal{Q}) \to 1$ as $\mathcal{Q} \to \infty$ | ✓ |
 | MOND interpolation | $F'(\mathcal{Q}) = \mu_\text{std}(\sqrt{\mathcal{Q}})$ (zero RMSE) | ✓ |
 | Ghost-free propagation | $c_s^2 \in [0.50, 1.00]$ for $\mathcal{Q} \in [10^{-4}, 10^3]$ | ✓ |
 | GW speed constraint | $c_T = c$ (conformal structure) | ✓ |
+
+**Figure 1.** *The V4.2 hybrid free function and its stability properties.*
+*Left:* The free function $F(\mathcal{Q}) = \sqrt{\mathcal{Q}(1+\mathcal{Q})} - \text{arcsinh}(\sqrt{\mathcal{Q}})$ (blue) plotted over $\mathcal{Q} \in [10^{-4}, 10^3]$ on a log--log scale.
+*Centre:* The derivative $F'(\mathcal{Q})$ (blue) compared against the Standard MOND interpolation function $\mu_\text{std}(\sqrt{\mathcal{Q}}) = \sqrt{\mathcal{Q}}/\sqrt{1+\mathcal{Q}}$ (black dashed). The two curves are indistinguishable: the root-mean-square deviation is identically zero by construction, since $F(\mathcal{Q})$ is derived by integrating $\mu_\text{std}$ directly.
+*Right:* The scalar sound speed $c_s^2(\mathcal{Q}) = F'/(F' + 2\mathcal{Q}F'')$ at the default parameters $\lambda = 0.05$, $\beta = 1.5$ (green). The red dashed line marks the causality limit $c_s^2 = 1$; the orange dotted line marks $c_s^2 = 0.5$ (the deep-MOND asymptotic value); the black dashed line marks $c_s^2 = 0$ (ghost threshold). The scalar field propagates subluminally and ghost-free across the full parameter range, satisfying the GW170817 constraint $c_T = c$ by conformal coupling structure. At $\lambda = 0$ (the SPARC-preferred value) the bounds tighten to $c_s^2 \in [0.500, 0.999]$.
 
 ---
 
@@ -165,6 +170,12 @@ The poor fits ($\geq 20$ km s$^{-1}$) cluster into identifiable groups:
 
 The overall fit quality is comparable to published Standard MOND results on the full SPARC sample using the same $\mu_\text{std}$ interpolation function (Li et al. 2018), as expected: at $\lambda = 0$ the Mimetic-Conformal framework is exactly equivalent to MOND with $\mu_\text{std}$.
 
+**Figure 2.** *Rotation curve fits for the 12 best-fitting SPARC galaxies.*
+Each panel shows the observed circular velocity $V_\text{obs}$ (white points with $1\sigma$ error bars), the Mimetic-Conformal V4.2 prediction $V_\text{pred}$ (cyan), and the baryonic Newtonian velocity $V_\text{bar}$ (orange dashed), as functions of galactocentric radius $R$ [kpc]. The prediction uses the minimal free function $F_\text{MOND}(\mathcal{Q})$ with $\lambda = 0$, $a_0 = 1.21 \times 10^{-10}$ m s$^{-2}$ (pinned), $\Upsilon_\text{disk} = 0.50$, and $\Upsilon_\text{bul} = 0.70$ M$_\odot$/L$_\odot$ (McGaugh & Schombert 2015). The per-galaxy RMSE is shown in each panel title. These 12 galaxies span the full range of morphology from gas-dominated dwarfs (e.g.\ UGCA281, DDO154) to intermediate-mass spirals, all in the deep-MOND or MOND-transition regime ($g_\text{bar}/a_0 \lesssim 1$). The framework achieves RMSE $< 10$ km s$^{-1}$ for 61/171 SPARC galaxies.
+
+**Figure 3.** *Radial Acceleration Relation (RAR) for 171 SPARC galaxies.*
+Grey points show the observed centripetal acceleration $g_\text{obs} = V_\text{obs}^2/R$ versus the baryonic Newtonian acceleration $g_\text{bar} = V_\text{bar}^2/R$ for all measured radii in all 171 galaxies. The cyan curve shows the Mimetic-Conformal V4.2 prediction $g_\text{obs} = g_\text{bar} / F'((g_\text{bar}/a_0)^2)$ at $\lambda = 0$ — equivalent to Standard MOND with $\mu_\text{std}$ — evaluated over $g_\text{bar} \in [10^{-13}, 10^{-8}]$ m s$^{-2}$. The orange dashed line shows the Newtonian expectation $g_\text{obs} = g_\text{bar}$. Vertical and horizontal dotted grey lines mark $g = a_0 = 1.21 \times 10^{-10}$ m s$^{-2}$. Below $a_0$ the framework predicts $g_\text{obs} \to \sqrt{g_\text{bar} \cdot a_0}$ (flat rotation curve regime); above $a_0$ the prediction converges to Newtonian. The framework reproduces the tight empirical RAR of McGaugh et al.\ (2016) across five decades in $g_\text{bar}$.
+
 ### 4.2 Dynamical Regime Breakdown
 
 Classifying galaxies by their maximum baryonic acceleration:
@@ -175,7 +186,7 @@ Classifying galaxies by their maximum baryonic acceleration:
 | Transition | $0.3 \leq g_\text{bar}/a_0 < 5$ | 55 | Guard peak Q $\sim 1.33$ sampled; drives $\lambda \to 0$ |
 | Newtonian | $g_\text{bar}/a_0 \geq 5$ | 25 | Guard exponentially suppressed |
 
-The caustic guard $\lambda\mathcal{Q}^2 e^{-\beta\mathcal{Q}}$ peaks at $\mathcal{Q} = 2/\beta = 1.33$, corresponding to $g_\text{bar}/a_0 \approx 1.15$. The 55 transition-regime galaxies sample exactly this region of parameter space and provide the binding constraint on $\lambda$.
+The caustic guard's contribution to $F'(\mathcal{Q})$, given by $\lambda(2\mathcal{Q}-\beta\mathcal{Q}^2)e^{-\beta\mathcal{Q}}$, peaks at $\mathcal{Q} = (2-\sqrt{2})/\beta \approx 0.39$ for $\beta=1.5$, corresponding to $g_\text{bar}/a_0 \approx 0.62$. The 55 transition-regime galaxies sample exactly this region of parameter space and provide the binding constraint on $\lambda$.
 
 ### 4.3 The λ-Profile Scan
 
@@ -195,6 +206,13 @@ The curvature of $+2.11$ at $\lambda = 0$ confirms this is a genuine minimum of 
 
 The RMSE increase of $+0.034$ at the V4.2 theoretical default ($\lambda = 0.05$) is small in absolute terms but systematic across all 171 galaxies. The guard correction is counterproductive in the galactic rotation curve regime.
 
+**Figure 4.** *Likelihood profile scan: global RMSE as a function of the caustic guard amplitude $\lambda$.*
+All panels use 171 SPARC galaxies with $a_0 = 1.21 \times 10^{-10}$ m s$^{-2}$ (pinned) and $\beta = 1.5$ (fixed). The scan uses 60 uniformly spaced values of $\lambda \in [0, 0.5]$.
+*Top left:* Global weighted RMSE versus $\lambda$ for all 171 galaxies (cyan). The lime dashed line marks $\lambda_\text{opt} = 0$; the orange dotted line marks the V4.2 theoretical default $\lambda = 0.05$.
+*Top right:* RMSE by dynamical regime — deep MOND ($g_\text{bar}/a_0 < 0.3$, red; $n = 91$), transition regime ($0.3$--$5$, cyan; $n = 55$), and Newtonian ($g_\text{bar}/a_0 \geq 5$, yellow; $n = 25$). The constraint on $\lambda$ is driven by the transition-regime galaxies, which sample the guard's peak at $\mathcal{Q} \approx 0.39$.
+*Bottom left:* RMSE change $\Delta(\text{RMSE})$ relative to $\lambda = 0$ for the 10 transition-regime galaxies most sensitive to $\lambda$, colour-coded by $g_\text{bar}/a_0$. All curves slope upward, confirming the guard is uniformly counterproductive.
+*Bottom right:* Zoomed profile over $\lambda \in [0, 0.15]$. The curvature at $\lambda = 0$ is $+2.11$ (positive definite minimum); the flatness ratio over $[0, 0.1]$ is $0.133$. The profile is peaked: SPARC actively disfavours $\lambda > 0$ rather than being insensitive to it.
+
 ### 4.4 Joint (λ, a₀) Free Fit
 
 To test whether the $\lambda = 0$ result is degenerate with the MOND acceleration scale — specifically, whether a non-zero $\lambda$ could be absorbed into a rescaled $a_0$ (interpretation b) — we perform a joint free fit over $(\lambda, a_0)$ simultaneously, with bounds $\lambda \in [0, 0.5]$ and $a_0 \in [0.5, 2.5] \times 10^{-10}$ m s$^{-2}$.
@@ -208,6 +226,40 @@ with global RMSE = 4.715, compared to 4.744 for the pinned-$a_0$ fit ($\Delta\te
 Interpretation (b) is therefore **definitively ruled out**: $\lambda$ and $a_0$ are not degenerate in the SPARC parameter space. The caustic guard amplitude is excluded independently of the assumed MOND scale.
 
 The recovered $a_{0,\text{joint}} = 1.264 \times 10^{-10}$ m s$^{-2}$ is within $4.5\%$ of the canonical value and consistent with the range of published MOND $a_0$ constraints ($1.1$–$1.3 \times 10^{-10}$ m s$^{-2}$; Begeman et al. 1991; McGaugh et al. 2016; Li et al. 2018). The small positive shift may reflect systematic bias from our fixed M/L ratios: a higher $\Upsilon_\text{disk}$ would increase $g_\text{bar}$ and shift the preferred $a_0$ downward. This systematic is comparable to the $\Delta a_0$ we observe.
+
+**Figure 5.** *Joint ($\lambda$, $a_0$) free fit: 2D RMSE landscape and 1D slices.*
+*Left:* Global weighted RMSE as a function of both $\lambda \in [0, 0.5]$ and $a_0 \in [0.5, 2.5] \times 10^{-10}$ m s$^{-2}$, computed on a $40 \times 40$ grid over 171 SPARC galaxies. The colour scale runs from minimum RMSE (dark) to the 90th percentile (light). The lime point marks the joint optimum ($\lambda = 0$, $a_0 = 1.264 \times 10^{-10}$ m s$^{-2}$); the cyan star marks the canonical pinned values. The landscape shows an isolated minimum with no diagonal ridge, ruling out degeneracy between $\lambda$ and $a_0$.
+*Right:* One-dimensional slices through the optimum. The cyan curve shows RMSE versus $\lambda$ at $a_0 = a_{0,\text{opt}}$; the orange curve shows RMSE versus $a_0$ (right axis) at $\lambda = 0$. Both slices are peaked at their respective optima with no flat directions, confirming $\lambda = 0$ is a genuine independent minimum. The joint RMSE of $4.715$ versus the pinned RMSE of $4.744$ represents a $0.6\%$ improvement, within systematic uncertainties of the M/L ratios.
+
+
+### 4.6 RMSE Residuals and Galaxy Properties
+
+We correlate the per-galaxy RMSE with eight properties extracted from the SPARC rotation curve files and the results table: $V_\text{flat}$, the peak baryonic acceleration ratio $g_\text{bar}/a_0$, bulge fraction $f_\text{bul}$, gas fraction $f_\text{gas}$, central disk surface brightness $\log_{10}\text{SB}_\text{disk}$, the MOND fraction (fraction of radii with $g_\text{bar}/a_0 < 1$), a profile shape index, and the number of data points. Spearman rank correlations $\rho$ and p-values for all 171 galaxies are given in Table 2.
+
+All eight correlations are statistically significant at $p \leq 3 \times 10^{-3}$, and their signs are internally consistent: every property that correlates positively with RMSE ($V_\text{flat}$, $g_\text{bar}/a_0$, $\log_{10}\text{SB}_\text{disk}$, $f_\text{bul}$) characterises the same population — massive, high-surface-brightness, bulge-dominated galaxies. Every negative correlation ($f_\text{gas}$, MOND fraction, profile shape) identifies their complement — gas-rich, low-surface-brightness dwarfs. The internal consistency across eight independent properties confirms that the 56 poor fits ($\text{RMSE} \geq 20$ km s$^{-1}$) form a coherent, physically interpretable population rather than random scatter.
+
+**Table 2.** Spearman rank correlations between per-galaxy RMSE and galaxy properties ($n = 171$).
+
+| Property | $\rho$ | $p$ |
+|:---|:---:|:---:|
+| $V_\text{flat}$ [km s$^{-1}$] | $+0.562$ | $1.3 \times 10^{-15}$ |
+| Gas fraction | $-0.520$ | $3.2 \times 10^{-13}$ |
+| $g_\text{bar}/a_0$ (max) | $+0.506$ | $1.8 \times 10^{-12}$ |
+| MOND fraction of radii | $-0.493$ | $7.6 \times 10^{-12}$ |
+| $\log_{10} \text{SB}_\text{disk}$ [$L_\odot\,\text{pc}^{-2}$] | $+0.485$ | $1.9 \times 10^{-11}$ |
+| Bulge fraction | $+0.414$ | $1.9 \times 10^{-8}$ |
+| Profile shape index | $-0.348$ | $3.1 \times 10^{-6}$ |
+| $N$ data points | $+0.226$ | $3.0 \times 10^{-3}$ |
+
+The mean properties of good-fit ($\text{RMSE} < 20$ km s$^{-1}$, $n = 115$) and poor-fit ($n = 56$) galaxies confirm the separation: poor-fit galaxies have $V_\text{flat} = 171$ km s$^{-1}$ versus 97 km s$^{-1}$ for good fits, bulge fractions of 0.116 versus 0.016, and $g_\text{bar}/a_0 = 8.4$ versus 1.3.
+
+The physical mechanism is the behaviour of $\mu_\text{std}(x) = x/\sqrt{1+x^2}$ in the transition regime $x \sim 1$–$10$. This function approaches the Newtonian limit at $\mathcal{O}(x^{-2})$ — a relatively sharp transition that produces the wrong curvature of the effective acceleration profile in the inner-to-outer handoff zone of massive, bulge-dominated galaxies, where the baryonic acceleration spans the full range from Newtonian core to MOND outskirt. Gas-rich dwarfs with $g_\text{bar}/a_0 \ll 1$ throughout are unaffected, which explains their excellent fits (UGCA281: 1.5 km s$^{-1}$; DDO154: 3.3 km s$^{-1}$).
+
+Because the $\lambda = 0$ limit of Mimetic-Conformal V4.2 is algebraically identical to standard MOND with $\mu_\text{std}$, the observed residuals — concentrated in high-acceleration, high-surface-brightness, bulge-dominated galaxies — are attributable to the specific choice of interpolation function rather than a breakdown of the underlying conformal-mimetic framework. The alternative simple interpolation function $\mu_\text{simple}(x) = x/(1+x)$ is known to reduce residuals for this population in published MOND analyses (Li et al. 2018), but its adoption would require reconstructing the free function $F_\text{simple}(\mathcal{Q}) = \mathcal{Q} - 2\sqrt{\mathcal{Q}} + 2\ln(1 + \sqrt{\mathcal{Q}})$ and re-verifying the stability properties of the resulting action; this is deferred to future work.
+
+**Figure 6.** *Per-galaxy RMSE versus galaxy properties: Spearman rank correlations.*
+Eight panels show RMSE [km s$^{-1}$] versus each property for all 171 SPARC galaxies, colour-coded by dynamical regime: deep MOND ($g_\text{bar}/a_0 < 0.3$, blue; $n = 91$), transition ($0.3$--$5$, orange; $n = 55$), and Newtonian ($g_\text{bar}/a_0 \geq 5$, red; $n = 25$). The dashed horizontal line marks the poor-fit threshold at RMSE $= 20$ km s$^{-1}$. Panel titles give the Spearman rank correlation coefficient $\rho$ and p-value; all eight correlations are statistically significant ($p \leq 3 \times 10^{-3}$). Properties with $\rho > 0$ ($V_\text{flat}$, $g_\text{bar}/a_0$, central disk surface brightness, bulge fraction) identify the same population — massive, high-surface-brightness, bulge-dominated galaxies. Properties with $\rho < 0$ (gas fraction, MOND fraction, profile shape index) identify their complement — gas-rich, low-surface-brightness dwarfs. The coherence of the sign pattern across eight independent properties confirms that the 56 poor fits form a physically interpretable population rather than random scatter. Poor-fit galaxies have mean $V_\text{flat} = 171$ km s$^{-1}$ (versus 97 km s$^{-1}$ for good fits) and mean $g_\text{bar}/a_0 = 8.4$ (versus 1.3), consistent with the known limitations of $\mu_\text{std}$ in the Newtonian transition regime.
+
 
 ---
 
@@ -379,28 +431,3 @@ The complete pipeline is available as open-source software in the `The-Euclid-Se
 - `tools/run_full_survey.py` — Cluster lensing survey runner
 
 The SPARC refinery implements the correct AQUAL implicit equation (★) via vectorised Newton iteration. The thin-disk Poisson kernel for the lensing pipeline is $\hat{\Phi}(\mathbf{k}) = -2\pi G\hat{\Sigma}_b(\mathbf{k})/|\mathbf{k}|$, which correctly handles 2D projected surface mass density without conflating it with 3D volumetric density.
-
-### 4.6 RMSE Residuals and Galaxy Properties
-
-We correlate the per-galaxy RMSE with eight properties extracted from the SPARC rotation curve files and the results table: $V_\text{flat}$, the peak baryonic acceleration ratio $g_\text{bar}/a_0$, bulge fraction $f_\text{bul}$, gas fraction $f_\text{gas}$, central disk surface brightness $\log_{10}\text{SB}_\text{disk}$, the MOND fraction (fraction of radii with $g_\text{bar}/a_0 < 1$), a profile shape index, and the number of data points. Spearman rank correlations $\rho$ and p-values for all 171 galaxies are given in Table 2.
-
-All eight correlations are statistically significant at $p \leq 3 \times 10^{-3}$, and their signs are internally consistent: every property that correlates positively with RMSE ($V_\text{flat}$, $g_\text{bar}/a_0$, $\log_{10}\text{SB}_\text{disk}$, $f_\text{bul}$) characterises the same population — massive, high-surface-brightness, bulge-dominated galaxies. Every negative correlation ($f_\text{gas}$, MOND fraction, profile shape) identifies their complement — gas-rich, low-surface-brightness dwarfs. The internal consistency across eight independent properties confirms that the 56 poor fits ($\text{RMSE} \geq 20$ km s$^{-1}$) form a coherent, physically interpretable population rather than random scatter.
-
-**Table 2.** Spearman rank correlations between per-galaxy RMSE and galaxy properties ($n = 171$).
-
-| Property | $\rho$ | $p$ |
-|:---|:---:|:---:|
-| $V_\text{flat}$ [km s$^{-1}$] | $+0.562$ | $1.3 \times 10^{-15}$ |
-| Gas fraction | $-0.520$ | $3.2 \times 10^{-13}$ |
-| $g_\text{bar}/a_0$ (max) | $+0.506$ | $1.8 \times 10^{-12}$ |
-| MOND fraction of radii | $-0.493$ | $7.6 \times 10^{-12}$ |
-| $\log_{10} \text{SB}_\text{disk}$ [$L_\odot\,\text{pc}^{-2}$] | $+0.485$ | $1.9 \times 10^{-11}$ |
-| Bulge fraction | $+0.414$ | $1.9 \times 10^{-8}$ |
-| Profile shape index | $-0.348$ | $3.1 \times 10^{-6}$ |
-| $N$ data points | $+0.226$ | $3.0 \times 10^{-3}$ |
-
-The mean properties of good-fit ($\text{RMSE} < 20$ km s$^{-1}$, $n = 115$) and poor-fit ($n = 56$) galaxies confirm the separation: poor-fit galaxies have $V_\text{flat} = 171$ km s$^{-1}$ versus 97 km s$^{-1}$ for good fits, bulge fractions of 0.116 versus 0.016, and $g_\text{bar}/a_0 = 8.4$ versus 1.3.
-
-The physical mechanism is the behaviour of $\mu_\text{std}(x) = x/\sqrt{1+x^2}$ in the transition regime $x \sim 1$–$10$. This function approaches the Newtonian limit at $\mathcal{O}(x^{-2})$ — a relatively sharp transition that produces the wrong curvature of the effective acceleration profile in the inner-to-outer handoff zone of massive, bulge-dominated galaxies, where the baryonic acceleration spans the full range from Newtonian core to MOND outskirt. Gas-rich dwarfs with $g_\text{bar}/a_0 \ll 1$ throughout are unaffected, which explains their excellent fits (UGCA281: 1.5 km s$^{-1}$; DDO154: 3.3 km s$^{-1}$).
-
-Because the $\lambda = 0$ limit of Mimetic-Conformal V4.2 is algebraically identical to standard MOND with $\mu_\text{std}$, the observed residuals — concentrated in high-acceleration, high-surface-brightness, bulge-dominated galaxies — are attributable to the specific choice of interpolation function rather than a breakdown of the underlying conformal-mimetic framework. The alternative simple interpolation function $\mu_\text{simple}(x) = x/(1+x)$ is known to reduce residuals for this population in published MOND analyses (Li et al. 2018), but its adoption would require reconstructing the free function $F_\text{simple}(\mathcal{Q}) = \mathcal{Q} - 2\sqrt{\mathcal{Q}} + 2\ln(1 + \sqrt{\mathcal{Q}})$ and re-verifying the stability properties of the resulting action; this is deferred to future work.
